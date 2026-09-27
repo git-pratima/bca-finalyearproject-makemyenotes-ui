@@ -20,6 +20,7 @@ import { filter } from 'rxjs';
 
 export class AppComponent implements OnInit{
 
+  theme: 'dark' | 'light' = 'dark';
   showModal = false;
   rating = 0;        // can be 1, 1.5, 2, 2.5, etc.
   feedbackText = '';
@@ -49,6 +50,8 @@ isNavReady = false;
 ngOnInit(): void {
   if (isPlatformBrowser(this.platformId)) {
     this.userName = localStorage.getItem("username");
+    this.theme = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', this.theme);
   }
 
   // ✅ ADD THIS — hide outlet until first navigation completes
@@ -58,6 +61,14 @@ ngOnInit(): void {
     this.isNavReady = true;
   });
 }
+
+  toggleTheme(): void {
+    this.theme = this.theme === 'dark' ? 'light' : 'dark';
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('theme', this.theme);
+      document.documentElement.setAttribute('data-theme', this.theme);
+    }
+  }
 
   isAuth():boolean{
     if (isPlatformBrowser(this.platformId)) {
@@ -88,12 +99,7 @@ ngOnInit(): void {
   }
 
   setRating(value: number) {
-    // toggle half-star on second click
-    if (this.rating === value) {
-      this.rating = value - 0.5;
-    } else {
-      this.rating = value;
-    }
+    this.rating = value;
   }
 
   submitFeedback() {
@@ -122,19 +128,4 @@ ngOnInit(): void {
     this.closeModal();
   }
 
-  resetCricketKeys():void{
-    this.apiService.resetCricketKeys().subscribe({
-            next: (res:any) => {
-                  this.notify.info(res.message);
-                },
-                error: (err: any) => {
-                if(err.error.status===401){
-                  alert('Need Access/Login!');
-                  //this.router.navigate(['/login']);
-                }
-                this.notify.info(err.error.message);
-          }
-      });
-    
-  }
 }

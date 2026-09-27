@@ -29,11 +29,6 @@ export class ApiService {
     return null;
   }
 
-  // ✅ getter — evaluated on demand, not at class construction
-  private get cricketData(): string {
-    return `https://api.cricapi.com/v1/cricScore?apikey=${this.getStorage('ckey')}`;
-  }
-
   saveToStorage(key: string, value: string): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(key, value);
@@ -72,12 +67,6 @@ export class ApiService {
 
   getCity(lat: number, lon: number): Observable<any> {
     return this.http.get(`${this.cityUrl}?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
-  }
-
-  increaseKeyHits(): Observable<any> {
-    return this.http.get(`${ApiService.BASE_URL}/key/increase-hits/` + this.getStorage('ckey'), {
-      headers: this.getHeader(),
-    });
   }
 
   loadOnlineUsers(): Observable<any> {
@@ -120,9 +109,4 @@ export class ApiService {
     });
   }
 
-  resetCricketKeys(): Observable<any> {
-    return this.http.post(`${ApiService.BASE_URL}/key/reset`, {}, {
-      headers: this.getHeader(),
-    });
-  }
 }

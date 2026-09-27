@@ -15,6 +15,15 @@
     <span class="navbar-title">Make My e Notes</span>
   </div>
   <div class="navbar-right">
+    <button
+      type="button"
+      class="theme-switch"
+      (click)="toggleTheme()"
+      [attr.aria-label]="theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+      [attr.title]="theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+      [attr.aria-pressed]="theme === 'light'">
+      <span aria-hidden="true">{{ theme === 'dark' ? '☀' : '☾' }}</span>
+    </button>
     <ng-container *ngIf="!isAuth()">
       <a routerLink="/login" class="nav-btn ghost">Login</a>
       <a routerLink="/register" class="nav-btn primary">Register</a>
@@ -47,9 +56,8 @@
         <span
           class="star"
           [class.filled]="(i + 1) <= rating"
-          [class.half]="(i + 0.5) === rating"
           (click)="setRating(i + 1)">
-          ★
+          {{ (i + 1) <= rating ? '★' : '☆' }}
         </span>
       </ng-container>
     </div>
@@ -120,12 +128,6 @@
           <span class="nav-icon">🗓️</span> Events
         </a>
       </li>
-      <li *ngIf="isAdmin()">
-        <a (click)="resetCricketKeys()" routerLinkActive="active" >
-          <span class="nav-icon">🔄️</span> Reset Keys
-        </a>
-      </li>
-
       <li *ngIf="isAuth()">
         <a routerLink="/profile" routerLinkActive="active">
           <span class="nav-icon">👤</span> Profile
