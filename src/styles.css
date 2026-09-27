@@ -294,6 +294,128 @@ html[data-theme='light'] .theory-practical-card {
 }
 html[data-theme='light'] .date-label { color: #64748b; }
 
+html[data-theme='light'] app-login .auth-wrapper,
+html[data-theme='light'] app-register .auth-wrapper {
+  background: linear-gradient(145deg, #f8fafc 0%, #eef2ff 58%, #f0fdfa 100%) !important;
+  color: #1f2937 !important;
+}
+
+html[data-theme='light'] app-login .auth-card,
+html[data-theme='light'] app-register .auth-card {
+  background: #fff !important;
+  border-color: #dbe3ee !important;
+  box-shadow: 0 24px 64px rgba(15, 23, 42, 0.12) !important;
+  padding: 28px 36px !important;
+}
+
+html[data-theme='light'] app-login .brand-icon img,
+html[data-theme='light'] app-register .brand-icon img {
+  width: 112px !important;
+  height: 112px !important;
+}
+
+html[data-theme='light'] app-login .brand h1,
+html[data-theme='light'] app-register .brand h1 {
+  color: #172033 !important;
+}
+
+html[data-theme='light'] app-login .subtitle,
+html[data-theme='light'] app-register .subtitle,
+html[data-theme='light'] app-login .register-link,
+html[data-theme='light'] app-register .login-link {
+  color: #64748b !important;
+}
+
+html[data-theme='light'] app-login .input-group,
+html[data-theme='light'] app-register .input-group {
+  background: #fff !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+html[data-theme='light'] app-login .input-group:focus-within,
+html[data-theme='light'] app-register .input-group:focus-within {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14) !important;
+}
+
+html[data-theme='light'] app-login .input-group input,
+html[data-theme='light'] app-register .input-group input {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #1f2937 !important;
+  caret-color: #1f2937 !important;
+  min-width: 0;
+  padding: 14px 0;
+}
+
+html[data-theme='light'] app-login .input-group,
+html[data-theme='light'] app-register .input-group {
+  min-height: 50px;
+  padding: 0 15px;
+}
+
+html[data-theme='light'] app-login .input-group input::placeholder,
+html[data-theme='light'] app-register .input-group input::placeholder {
+  color: #94a3b8 !important;
+}
+
+html[data-theme='light'] app-login .input-group input:-webkit-autofill,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:hover,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:focus,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:active,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:hover,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:focus,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  caret-color: #1f2937 !important;
+}
+
+html[data-theme='light'] app-login .input-group input:-webkit-autofill,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:hover,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:focus,
+html[data-theme='light'] app-login .input-group input:-webkit-autofill:active,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:hover,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:focus,
+html[data-theme='light'] app-register .input-group input:-webkit-autofill:active {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+html[data-theme='light'] app-login .divider-line {
+  background: #e2e8f0 !important;
+  border-top-color: #e2e8f0 !important;
+}
+
+html[data-theme='light'] app-login .divider-text { color: #64748b !important; }
+
+html[data-theme='light'] app-login .btn-google {
+  background: #fff !important;
+  border-color: #cbd5e1 !important;
+  color: #1f2937 !important;
+}
+
+html[data-theme='light'] app-login .btn-google:hover {
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+}
+
+html[data-theme='light'] app-login .message,
+html[data-theme='light'] app-register .message {
+  background: #fff1f2 !important;
+  border-color: #fecdd3 !important;
+  color: #be123c !important;
+}
+
+html[data-theme='light'] app-login .register-link a,
+html[data-theme='light'] app-register .login-link a {
+  color: #4338ca !important;
+}
+
 html[data-theme='light'] .dashboard-wrapper .edit-input,
 html[data-theme='light'] .dashboard-wrapper .edit-btn,
 html[data-theme='light'] .dashboard-wrapper .summary-card,
@@ -367,6 +489,17 @@ html[data-theme='light'] app-root select:focus {
   background-color: #fff !important;
   border-color: #6366f1 !important;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14) !important;
+}
+
+html[data-theme='light'] app-root app-login .auth-card .login-form .input-group > input,
+html[data-theme='light'] app-root app-register .auth-card .register-form .input-group > input,
+html[data-theme='light'] app-root app-login .auth-card .login-form .input-group > input:focus,
+html[data-theme='light'] app-root app-register .auth-card .register-form .input-group > input:focus {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 html[data-theme='light'] app-root .form-header,

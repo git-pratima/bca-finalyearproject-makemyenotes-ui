@@ -22,6 +22,7 @@ export class RegisterComponent {
     phoneNumber: '',
     password: ''
   };
+  confirmPassword = '';
   message:string | null = null;
 
   async handleSubmit(){
@@ -35,9 +36,19 @@ export class RegisterComponent {
       return;
     }
 
+    if (this.formData.password !== this.confirmPassword) {
+      this.showMessage('Passwords do not match');
+      return;
+    }
+
     try {
       const response: any = await firstValueFrom(
-        this.apiService.registerUser(this.formData)
+        this.apiService.registerUser({
+          email: this.formData.email,
+          name: this.formData.name,
+          phoneNumber: this.formData.phoneNumber,
+          password: this.formData.password
+        })
       );
       if (response.status === 200) {
         this.showMessage(response.message)
