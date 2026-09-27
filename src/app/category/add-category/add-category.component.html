@@ -1,0 +1,111 @@
+<!-- Enhanced Add Category Page -->
+<!-- All Angular bindings preserved exactly as original -->
+
+<div class="purchase-form-page">
+  <p *ngIf="message" class="message">{{ message }}</p>
+
+  <div class="form-header">
+    <span class="form-eyebrow">Category Management</span>
+    <h1>Add Category</h1>
+  </div>
+
+  <form (ngSubmit)="handleSubmit()" class="category-form">
+    <!--Category-->
+    <div class="form-group">
+      <label *ngIf="!isNewCat">Select Category</label>
+      <div *ngIf="!isNewCat" class="input-with-action">
+        <select id="category" name="category" [(ngModel)]="formData.category" (change)="onChangeCategory($event)">
+          <option value="" disabled>Select Category</option>
+          <option *ngFor="let category of categoryList" [value]="category">{{ category }}</option>
+        </select>
+        <button type="button" class="inline-btn" (click)="addNewRefCodeInExistingCat()">New</button>
+      </div>
+
+      <label *ngIf="isNewCat">New Category</label>
+      <div *ngIf="isNewCat" class="input-with-action">
+        <input type="text" [(ngModel)]="formData.category" name="category" placeholder="Enter new category" />
+        <button type="button" class="inline-btn secondary" (click)="addNewRefCodeInExistingCat()">Existing</button>
+      </div>
+    </div>
+
+    <!-- Sub Category Field -->
+    <div class="form-group" *ngIf="isNewCat">
+      <label>Sub Category</label>
+      <input type="text" [(ngModel)]="formData.subCategory" name="subCategory" placeholder="Enter sub category name" />
+    </div>
+
+    <div class="form-group" *ngIf="!isNewCat">
+      <label>Select Sub Category</label>
+
+      <div *ngIf="!isNewSubCat" class="input-with-action">
+        <select id="subCategory" name="subCategory" [(ngModel)]="formData.subCategory" (change)="onChangeSubCategory($event)">
+          <option value="" disabled>Select Sub Category</option>
+          <option *ngFor="let subCategory of subCategoryList" [value]="subCategory">{{ subCategory }}</option>
+        </select>
+        <button type="button" class="inline-btn" (click)="addSubCatInExistingCat()">New</button>
+      </div>
+
+      <div *ngIf="isNewSubCat" class="input-with-action">
+        <input type="text" [(ngModel)]="formData.subCategory" name="subCategory" placeholder="Enter new sub category" />
+        <button type="button" class="inline-btn secondary" (click)="addSubCatInExistingCat()">Existing</button>
+      </div>
+    </div>
+    <!--Topic-->
+    <div class="form-group" *ngIf="isNewCat">
+      <label>Topic</label>
+      <input type="text" [(ngModel)]="formData.topic" name="topic" placeholder="Enter new topic" />
+    </div>
+
+    <div class="form-group" *ngIf="!isNewCat">      
+      <label *ngIf="isNewSubCat">Add New Topic</label>
+      <div *ngIf="isNewSubCat" class="input-with-action">
+        <input type="text" [(ngModel)]="formData.topic" name="topic" placeholder="Enter new topic" />
+      </div>
+
+      <label *ngIf="!isNewSubCat && !isNewTopic">Choose Topic</label>
+      <div *ngIf="!isNewSubCat && !isNewTopic" class="input-with-action">
+        <select id="subCategory" name="topic" [(ngModel)]="formData.topic">
+          <option value="" disabled>Choose Topic</option>
+          <option *ngFor="let topic of topicList">{{ topic }}</option>
+        </select>
+        <button type="button" class="inline-btn" (click)="addTopicInExistingSubCat()">New</button>
+      </div>
+
+      <label *ngIf="!isNewSubCat && isNewTopic">New Topic</label>
+      <div *ngIf="!isNewSubCat && isNewTopic" class="input-with-action">
+        <input type="text" [(ngModel)]="formData.topic" name="topic" placeholder="Enter new topic" />
+        <button type="button" class="inline-btn secondary" (click)="addTopicInExistingSubCat()">Existing</button>
+      </div>
+
+    </div>
+
+    <!-- Ref Code + Ref Code Long Name has been removed now -->
+    <!-- <div class="form-row">
+      <div class="form-group">
+        <label>Reference Code</label>
+        <input type="text" [(ngModel)]="formData.refCode" name="refCode" placeholder="e.g. JBACS" />
+      </div>
+
+      <div class="form-group">
+        <label>Ref Code Long Name</label>
+        <input type="text" [(ngModel)]="formData.refCodeLongName" name="refCodeLongName" placeholder="e.g. Java Basics" />
+      </div>
+    </div> -->
+
+    <!-- Active -->
+    <div class="form-group half">
+      <label>Active</label>
+      <select name="active" [(ngModel)]="formData.active">
+        <option value="">Active / Inactive</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <button type="submit">Add</button>
+    </div>
+
+  </form>
+</div>

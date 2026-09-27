@@ -1,0 +1,261 @@
+<div class="dashboard-wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
+      <div class="brand-icon">
+        <img src="images/logo.png" alt="Make My e Notes Logo" 
+          style="width: 50px; height: 60px; object-fit: contain; display: block; margin: 0 auto;" />
+      </div>
+      <div>
+        <h1 style="margin: 0;">Make My e Notes <span>Dashboard</span></h1>
+        <p class="under-dev" style="margin: 0;">🚧 Under Development</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    <ng-container *ngFor="let card of summaryCards">
+      <div class="summary-card" 
+          *ngIf="card.title !== 'New Feedback' || isAdmin()"
+          (click)="onCardClick(card)" 
+          style="cursor:pointer">
+        <div class="card-icon" [style.background]="card.color">{{ card.icon }}</div>
+        <div class="card-info">
+          <p class="card-title">{{ card.title }}</p>
+          <h2 class="card-value">{{ card.value }}</h2>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Middle Section -->
+  <div class="middle-grid">
+
+    <!-- Chart -->
+    <div class="panel chart-panel">
+      <h3 class="panel-title">📈 Daily Progress – Current Month</h3>
+      <canvas id="dailyChart"></canvas>
+    </div>
+
+    <!-- All Questions -->
+    <div class="panel questions-panel">
+      <h3 class="panel-title">🗂 All Questions</h3>
+      <div *ngFor="let stage of educationalStages" class="stage-row">
+        <div class="stage-dot" [style.background]="stage.color"></div>
+        <div class="stage-info">
+          <span class="stage-name">{{ stage.name }}</span>
+          <span class="stage-value">{{ stage.value }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="bottom-grid">
+
+    <!-- Activities & Events -->
+    <div class="panel events-panel">
+
+      <!-- User Monthly Line graph -->
+      <div *ngIf="!isAdmin()" style="margin-top: 16px;">
+        <h3 class="panel-title">📊 Daily Revision – Current Month</h3>
+        <canvas id="revisionChart"></canvas>
+      </div>
+
+      <!-- User Table -->
+      <div *ngIf="isAdmin()">
+        <div class="panel user-table-panel">
+          <h3 class="panel-title">👥 Registered Users</h3>
+          <div class="table-scroll">
+            <table class="user-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Provider</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of registeredUsers">
+                  <td>{{ user.id }}</td>
+                  <td>
+                    <div class="user-cell">
+                      <div class="avatar" [style.background]="getAvatarColor(user.name)">
+                        {{ getInitial(user.name) }}
+                      </div>
+                      {{ user.name }}
+                    </div>
+                  </td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="user.role === 'ADMIN' ? 'admin' : 'manager'">
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="user.provider === 'GOOGLE' ? 'google' : 'local'">
+                      {{ user.provider }}
+                    </span>
+                  </td>
+                  <td>{{ user.joined | date:'MMM d, yyyy' }}</td>
+                  <td>
+                    <span class="status" [ngClass]="user.online ? 'active' : 'inactive'">
+                      ● {{ user.online ? 'Active' : 'Inactive' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- User Table Ends here -->
+
+      <div class="panel user-table-panel">
+        <h3 class="panel-title">📋 Add Your Activities & Events</h3>
+        <div class="events-scroll">
+          <!-- Display mode -->
+          <ul class="events-list" *ngIf="!isEditing">
+            <ul *ngFor="let entry of toDoMap | keyvalue : dateDescOrder">
+              <label class="date-label">{{ entry.key | date:'MMM dd, yyyy' }}</label>
+              <li *ngFor="let todo of entry.value" class="todo-item">
+                <input type="checkbox" [checked]="todo.completed === 'Y'" class="readonly-check"/>
+                <span>{{ todo.task }}</span>
+              </li>
+            </ul>
+          </ul>
+
+          <!-- Edit mode -->
+          <div *ngIf="isEditing">
+            <div *ngFor="let todo of todos; let i = index" class="event-row">
+              <input type="checkbox" [(ngModel)]="todo.checked" />
+              <input type="text" [(ngModel)]="todo.task" placeholder="Edit event" class="edit-input" />
+              <button class="remove-btn" (click)="removeEvent(i)">Remove</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button class="add-btn" *ngIf="isEditing" (click)="addEvent()">+ Add</button>
+          <button class="edit-btn" (click)="toggleEdit()">
+            {{ isEditing ? '💾 Save' : '✏️ Edit' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Weather + Theory/Practical + Future Events -->
+    <div class="right-column">
+
+      <!-- Weather Card -->
+      <div class="panel weather-card">
+        <div class="weather-top">
+          <span class="city">{{ weatherCard.city }}</span>
+          <span class="weather-icon">☀️</span>
+        </div>
+        <div class="temperature">{{ weatherCard.currentTemp }}<span class="deg">°C</span></div>
+        <div class="condition">{{ weatherCard.zone }}</div>
+        <div class="condition">{{ weatherCard.weatherType }}</div>
+        <div class="weather-bottom">
+          <span>Updated: {{ weatherCard.lastUpdated }}</span>
+          <span>💧 {{ weatherCard.humidity }}%</span>
+        </div>
+      </div>
+
+      <!-- Theory vs Practical Graph (non-admin only) -->
+      <div class="panel theory-practical-card">
+        <p class="cricket-label">📊 Theory vs Practical – This Month</p>
+        <div class="chart-container">
+          <canvas id="typeRevisionChart"></canvas>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-item theory">
+            <span class="legend-dot"></span> Theory
+          </span>
+          <span class="legend-item practical">
+            <span class="legend-dot"></span> Practical
+          </span>
+        </div>
+      </div>
+
+      <!-- Future Events Slider -->
+      <div class="panel future-events-card" *ngIf="futureEventList && futureEventList.length > 0">
+        <div class="fe-card-content">
+          <div class="fe-slide" (mouseenter)="pauseEventSlide()" (mouseleave)="resumeEventSlide()">
+
+            <!-- Header row -->
+            <div class="fe-header-row">
+              <span class="fe-label">📅 Upcoming Event</span>
+              <span class="fe-counter">{{ currentEventIndex + 1 }} / {{ futureEventList.length }}</span>
+            </div>
+
+            <!-- Event name -->
+            <div class="fe-event-name">{{ futureEventList[currentEventIndex].eventName }}</div>
+
+            <!-- Purpose badge -->
+            <div class="fe-purpose-badge" [ngClass]="getPurposeClass(futureEventList[currentEventIndex].purpose)">
+              {{ futureEventList[currentEventIndex].purpose }}
+            </div>
+
+            <!-- Date range row -->
+            <div class="fe-date-row">
+              <div class="fe-date-block">
+                <span class="fe-date-lbl">START</span>
+                <span class="fe-date-val">{{ futureEventList[currentEventIndex].startDate | date:'MMM d, y' }}</span>
+              </div>
+              <div class="fe-date-arrow">→</div>
+              <div class="fe-date-block">
+                <span class="fe-date-lbl">END</span>
+                <span class="fe-date-val">{{ futureEventList[currentEventIndex].endDate | date:'MMM d, y' }}</span>
+              </div>
+            </div>
+
+            <!-- Duration -->
+            <div class="fe-duration">
+              ⏱ {{ getDurationDays(futureEventList[currentEventIndex].startDate, futureEventList[currentEventIndex].endDate) }} day(s) duration
+            </div>
+
+            <!-- Days remaining -->
+            <div class="fe-days-remaining">
+              <span class="fe-days-num">{{ getDaysUntil(futureEventList[currentEventIndex].startDate) }}</span>
+              <span class="fe-days-suffix">days away</span>
+            </div>
+
+            <!-- Status chip -->
+            <div class="fe-status-chip" [ngClass]="getStatusClass(futureEventList[currentEventIndex].status)">
+              {{ futureEventList[currentEventIndex].status }}
+            </div>
+
+          </div>
+
+          <!-- Dot indicators -->
+          <div class="fe-dots">
+            <span
+              *ngFor="let e of futureEventList; let i = index"
+              [class.active]="i === currentEventIndex"
+              (click)="goToEvent(i)"
+            ></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state when no future events -->
+      <div class="panel future-events-card future-events-empty" *ngIf="!futureEventList || futureEventList.length === 0">
+        <div class="fe-empty">
+          <span class="fe-empty-icon">🗓️</span>
+          <p class="fe-empty-title">No Upcoming Events</p>
+          <p class="fe-empty-sub">Your scheduled events will appear here.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

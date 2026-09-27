@@ -1,0 +1,305 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page ── */
+.product-form-page {
+  min-height: 100vh;
+  background: #0f1117;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(20, 184, 166, 0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 85% 85%, rgba(99, 102, 241, 0.09) 0%, transparent 55%);
+  font-family: 'DM Sans', sans-serif;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Message ── */
+.message {
+  width: 100%;
+  max-width: 860px;
+  background: rgba(20, 184, 166, 0.10);
+  border: 1px solid rgba(20, 184, 166, 0.22);
+  color: #2dd4bf;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 13px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.3s ease both;
+}
+
+/* ── Header ── */
+.form-header {
+  width: 100%;
+  max-width: 860px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.form-eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #14b8a6;
+  margin-bottom: 6px;
+}
+
+.form-header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 32px;
+  font-weight: 400;
+  color: #f1f5f9;
+  letter-spacing: -0.02em;
+}
+
+/* ── Form Card ── */
+.question-form {
+  width: 100%;
+  max-width: 1100px;
+  background: rgba(18, 20, 30, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(20, 184, 166, 0.07),
+    0 32px 80px rgba(0, 0, 0, 0.55);
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  animation: fadeUp 0.45s 0.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.question-form::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #14b8a6, #6366f1, #f43f5e);
+}
+
+/* ── Form Rows ── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-row.two-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-row.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Form Group ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.star {
+  font-size: 11px;
+}
+
+/* ── Inputs & Selects ── */
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-color: rgba(255, 255, 255, 0.04);
+  padding-right: 36px;
+}
+
+.form-group select option {
+  background: #1a1d2b;
+  color: #e2e8f0;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: rgba(20, 184, 166, 0.5);
+  background: rgba(20, 184, 166, 0.04);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.09);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #334155;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.65;
+}
+
+/* ── File Upload ── */
+.file-upload-wrap {
+  position: relative;
+}
+
+.file-upload-wrap input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.file-upload-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.file-upload-label:hover {
+  background: rgba(20, 184, 166, 0.06);
+  border-color: rgba(20, 184, 166, 0.28);
+  color: #2dd4bf;
+}
+
+.upload-icon {
+  width: 28px;
+  height: 28px;
+  background: rgba(20, 184, 166, 0.10);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #2dd4bf;
+  flex-shrink: 0;
+}
+
+/* ── Image Preview ── */
+.image-preview-wrap {
+  margin-top: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.image-preview {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ── Footer / Submit ── */
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.submit-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: #fff;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 18px rgba(20, 184, 166, 0.35);
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+  box-shadow: 0 6px 24px rgba(20, 184, 166, 0.52);
+  transform: translateY(-2px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.textarea-wrapper textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.open-editor-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 11px;
+  padding: 3px 8px;
+  background: transparent;
+  color: var(--accent-teal, #2dd4bf);
+  border: 1px solid var(--accent-teal, #2dd4bf);
+  border-radius: 4px;
+  text-decoration: none;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.open-editor-btn:hover {
+  opacity: 1;
+}
+
+/* ── Animation ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

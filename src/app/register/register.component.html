@@ -1,0 +1,71 @@
+<!-- register.component.html -->
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <div class="brand">
+      <div class="brand-icon">
+        <img src="images/logo.png" alt="Make My e Notes Logo"
+          style="width: 250px; height: 300px; object-fit: contain; display: block; margin: 0 auto;" />
+      </div>
+      <!-- <h1>Inventory<span>MS</span></h1> -->
+      <p class="subtitle">Create your account</p>
+    </div>
+
+    <p *ngIf="message" class="message">{{ message }}</p>
+
+    <form (ngSubmit)="handleSubmit()" class="register-form">
+
+      <div class="input-group">
+        <span class="input-icon">👤</span>
+        <input
+          type="text"
+          placeholder="Full name"
+          [(ngModel)]="formData.name"
+          name="name"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">✉️</span>
+        <input
+          type="email"
+          placeholder="Email address"
+          [(ngModel)]="formData.email"
+          name="email"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">🔒</span>
+        <input
+          type="password"
+          placeholder="Password"
+          [(ngModel)]="formData.password"
+          name="password"
+          required
+        />
+      </div>
+
+      <div class="input-group">
+        <span class="input-icon">📱</span>
+        <input
+          type="number"
+          placeholder="Phone number"
+          [(ngModel)]="formData.phoneNumber"
+          name="phoneNumber"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login" routerLinkActive="router-link-active">Login</a>
+    </p>
+
+  </div>
+</div>

@@ -1,0 +1,122 @@
+/* legal.component.css — use this for both privacy & terms components */
+
+.legal-page {
+  min-height: 100vh;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  padding: 40px 20px;
+}
+
+.legal-container {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+/* Header */
+.legal-header {
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding-bottom: 28px;
+}
+
+.back-link {
+  color: #38bdf8;
+  text-decoration: none;
+  font-size: 14px;
+  font-family: sans-serif;
+  display: inline-block;
+  margin-bottom: 16px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.back-link:hover { opacity: 1; }
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.legal-header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 8px 0;
+}
+
+.effective-date {
+  color: #94a3b8;
+  font-size: 14px;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* Body */
+.legal-body section {
+  margin-bottom: 32px;
+}
+
+.legal-body h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 10px;
+  font-family: sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.legal-body p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #cbd5e1;
+  margin: 0 0 10px 0;
+}
+
+.legal-body ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.legal-body ul li {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #cbd5e1;
+  margin-bottom: 6px;
+}
+
+.legal-body a {
+  color: #38bdf8;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Footer */
+.legal-footer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(56, 189, 248, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.legal-footer p {
+  color: #475569;
+  font-size: 13px;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.legal-footer a {
+  color: #38bdf8;
+  font-size: 13px;
+  font-family: sans-serif;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.legal-footer a:hover { opacity: 1; }

@@ -1,0 +1,188 @@
+<!-- ══════════════════════════════════════════════
+     home.component.html
+     Pure page content — no navbar, no sidebar.
+     Renders inside <router-outlet> in app.component.
+══════════════════════════════════════════════ -->
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-lines"></div>
+
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Notes · Questions · Knowledge
+    </div>
+
+    <h1 class="hero-title">
+      Your Notes.<br>
+      <span class="title-accent">Your Language.</span><br>
+      Your Way.
+    </h1>
+
+    <p class="hero-desc">
+      The smartest way for students, professionals &amp; teachers to
+      organise Q&amp;A notes by category — and prepare for anything.
+    </p>
+
+    <div class="hero-actions">
+      <a routerLink="/register" class="btn btn-primary">
+        <span>Get Started Free</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a routerLink="/login" class="btn btn-ghost">Sign In</a>
+    </div>
+
+    <div class="hero-for">
+      <span class="for-label">Built for</span>
+      <span class="for-pill">🎓 Students</span>
+      <span class="for-pill">💼 Professionals</span>
+      <span class="for-pill">📚 Teachers</span>
+    </div>
+  </div>
+
+  <!-- floating note card preview -->
+  <div class="hero-preview">
+    <div class="preview-card">
+      <div class="preview-breadcrumb">
+        <span>Java</span>
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <span>Collections</span>
+        <svg width="10" height="10" viewBox="0 0 10 10"><path d="M3 2l4 3-4 3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        <span class="bc-active">ArrayList</span>
+      </div>
+      <div class="preview-q">Q: What is ArrayList in Java?</div>
+      <div class="preview-a">A resizable array in java.util. Allows dynamic sizing &amp; O(1) random access.</div>
+      <div class="preview-subq">
+        <div class="subq-line"></div>
+        <div class="subq-content">
+          <div class="preview-q sub">↳ Sub Q: Is it thread-safe?</div>
+          <div class="preview-a sub">No. Use Vector or Collections.synchronizedList().</div>
+        </div>
+      </div>
+      <div class="preview-actions">
+        <span class="pa edit">✏️ Edit</span>
+        <span class="pa delete">🗑 Delete</span>
+        <span class="pa bookmark active">🔖 Bookmarked</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="section-features" id="features">
+  <div class="section-header">
+    <p class="section-eyebrow">Everything You Need</p>
+    <h2 class="section-title">Built for <em>real</em> preparation</h2>
+    <p class="section-sub">Every feature is here because students, teachers and professionals asked for it.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="fcard" *ngFor="let f of features">
+      <div class="fcard-icon">{{ f.icon }}</div>
+      <h3 class="fcard-title">{{ f.title }}</h3>
+      <p class="fcard-desc">{{ f.desc }}</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="section-how" id="how">
+  <div class="how-text">
+    <p class="section-eyebrow">How It Works</p>
+    <h2 class="section-title">From raw idea to <em>structured</em> notes</h2>
+    <div class="steps">
+      <div class="step" *ngFor="let s of steps">
+        <div class="step-num">{{ s.num }}</div>
+        <div>
+          <h4 class="step-title">{{ s.title }}</h4>
+          <p class="step-desc">{{ s.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="how-visual">
+    <div class="tree-card">
+      <div class="tree-row root">
+        <span class="tree-icon">🗂️</span>
+        <span class="tree-label">Java <small>Category</small></span>
+      </div>
+      <div class="tree-row child">
+        <span class="tree-connector">└─</span>
+        <span class="tree-icon">📂</span>
+        <span class="tree-label">Collections <small>Subcategory</small></span>
+      </div>
+      <div class="tree-row grandchild">
+        <span class="tree-connector">└─</span>
+        <span class="tree-icon">📄</span>
+        <span class="tree-label">ArrayList <small>Topic</small></span>
+      </div>
+      <div class="tree-qa">
+        <div class="tqa-q">Q: What is ArrayList?</div>
+        <div class="tqa-a">Resizable array in java.util...</div>
+        <div class="tqa-subq">
+          <span class="subq-tag">Sub Q</span>
+          Is ArrayList thread-safe?
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMMUNITY ── -->
+<section class="section-community" id="community">
+  <div class="community-header">
+    <p class="section-eyebrow">Community Learning</p>
+    <h2 class="section-title">Learn from others,<br><em>own</em> your notes</h2>
+    <p class="section-sub">Browse questions from the community. Bookmark what matters. Only you can edit yours.</p>
+  </div>
+
+  <div class="community-grid">
+    <div class="ccard" *ngFor="let c of communityCards">
+      <div class="ccard-top">
+        <div class="ccard-avatar">{{ c.initial }}</div>
+        <div class="ccard-meta">
+          <span class="ccard-author">{{ c.author }}</span>
+          <span class="ccard-topic">{{ c.topic }}</span>
+        </div>
+        <span class="ccard-bm" [class.active]="c.bookmarked" (click)="c.bookmarked = !c.bookmarked" title="Bookmark">🔖</span>
+      </div>
+      <div class="ccard-q">{{ c.question }}</div>
+      <div class="ccard-a">{{ c.answer }}</div>
+      <div class="ccard-readonly">
+        <span>👁 View only</span>
+        <span *ngIf="!c.bookmarked" class="ccard-bm-hint">Tap 🔖 to save</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="community-perms">
+    <div class="perm-row" *ngFor="let p of permissions">
+      <span class="perm-icon" [class.yes]="p.allowed" [class.no]="!p.allowed">
+        {{ p.allowed ? '✓' : '✕' }}
+      </span>
+      <span class="perm-text">{{ p.text }}</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="section-cta">
+  <div class="cta-inner">
+    <h2 class="cta-title">Start building your<br>knowledge base today</h2>
+    <p class="cta-sub">Free. No credit card. Your language, your notes.</p>
+    <div class="cta-actions">
+      <a routerLink="/register" class="btn btn-primary btn-lg">Create Free Account</a>
+      <a routerLink="/login" class="btn btn-ghost btn-lg">I already have an account</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── MINI FOOTER (legal only) ── -->
+<div class="home-footer">
+  <span>&copy; {{ currentYear }} Make My e Notes</span>
+  <a routerLink="/privacy">Privacy Policy</a>
+  <a routerLink="/terms">Terms of Service</a>
+</div>

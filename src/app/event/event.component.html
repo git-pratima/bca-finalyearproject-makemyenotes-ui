@@ -1,0 +1,205 @@
+<div class="calendar-shell">
+
+  <!-- ── Header ──────────────────────────────────────────────── -->
+  <div class="cal-header">
+    <div class="cal-header-left">
+      <span class="cal-icon">📅</span>
+      <div>
+        <h1 class="cal-title">Event Calendar</h1>
+        <p class="cal-subtitle">Click any day to schedule an event</p>
+      </div>
+    </div>
+    <div class="cal-header-right">
+      <div class="legend">
+        <span *ngFor="let p of purposeOptions" class="legend-chip"
+          [style.background]="getPurposeColor(p.value) + '22'"
+          [style.border-color]="getPurposeColor(p.value) + '55'"
+          [style.color]="getPurposeColor(p.value)">
+          {{ p.label }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Nav bar ────────────────────────────────────────────── -->
+  <div class="cal-nav">
+    <button class="nav-btn" (click)="prevMonth()">&#8249;</button>
+    <div class="month-label">{{ monthLabel }}</div>
+    <button class="nav-btn" (click)="nextMonth()">&#8250;</button>
+    <button class="today-btn" (click)="goToday()">Today</button>
+  </div>
+
+  <!-- ── Day-of-week header ─────────────────────────────────── -->
+  <div class="cal-weekdays">
+    <div *ngFor="let w of weekDays" class="weekday-label">{{ w }}</div>
+  </div>
+
+  <!-- ── Grid ───────────────────────────────────────────────── -->
+  <div class="cal-grid">
+    <div
+      *ngFor="let cell of dayCells"
+      class="day-cell"
+      [class.other-month]="!cell.isCurrentMonth"
+      [class.today]="cell.isToday"
+      (click)="openNewEventPopup(cell)"
+    >
+      <span class="day-number">{{ cell.dayNumber }}</span>
+
+      <div class="event-bars">
+
+        <!-- Normal view: max 3 bars -->
+        <ng-container *ngIf="!isExpanded(cell.dateStr)">
+          <div
+            *ngFor="let slot of cell.slots.slice(0, 3)"
+            class="event-bar"
+            [class.bar-single]="slot.position === 'single'"
+            [class.bar-start]="slot.position === 'start'"
+            [class.bar-middle]="slot.position === 'middle'"
+            [class.bar-end]="slot.position === 'end'"
+            [style.--bar-color]="getPurposeColor(slot.event.purpose)"
+            [style.--status-color]="getStatusColor(slot.event.status)"
+            [style.top.px]="34 + slot.row * 22"
+            (click)="openEditEventPopup(slot.event, $event)"
+            [title]="slot.event.eventName + ' · ' + getStatusLabel(slot.event.status)"
+          >
+            <ng-container *ngIf="slot.position === 'start' || slot.position === 'single'">
+              <span class="bar-dot"></span>
+              <span class="bar-label">{{ slot.event.eventName }}</span>
+            </ng-container>
+          </div>
+
+          <!-- +N more chip -->
+          <div
+            *ngIf="cell.slots.length > 3"
+            class="more-chip"
+            [style.top.px]="34 + 3 * 22"
+            (click)="toggleExpand(cell.dateStr, $event)"
+          >
+            +{{ cell.slots.length - 3 }} more
+          </div>
+        </ng-container>
+
+        <!-- Expanded view: all events in scrollable overlay -->
+        <ng-container *ngIf="isExpanded(cell.dateStr)">
+          <div class="expanded-overlay" (click)="$event.stopPropagation()">
+            <div class="expanded-header">
+              <span>{{ cell.dayNumber }} · {{ cell.slots.length }} events</span>
+              <button class="expand-close" (click)="toggleExpand(cell.dateStr, $event)">✕</button>
+            </div>
+            <div class="expanded-list">
+              <div
+                *ngFor="let slot of cell.slots"
+                class="expanded-item"
+                [style.--bar-color]="getPurposeColor(slot.event.purpose)"
+                [style.--status-color]="getStatusColor(slot.event.status)"
+                (click)="openEditEventPopup(slot.event, $event)"
+                [title]="slot.event.eventName"
+              >
+                <span class="bar-dot"></span>
+                <span class="expanded-label">{{ slot.event.eventName }}</span>
+                <span class="expanded-status" [style.color]="getStatusColor(slot.event.status)">
+                  {{ getStatusLabel(slot.event.status) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ Popup ══════════════════════════════════════════════════════ -->
+<div class="popup-backdrop" *ngIf="showPopup" (click)="closeOnBackdrop($event)">
+  <div class="popup-card" [class.edit-mode]="isEditMode">
+
+    <div class="popup-accent-bar"></div>
+
+    <!-- Header -->
+    <div class="popup-header">
+      <div class="popup-header-left">
+        <span class="popup-mode-badge" [class.edit]="isEditMode">
+          {{ isEditMode ? '✏️ Edit Event' : '✨ New Event' }}
+        </span>
+        <p class="popup-date-hint" *ngIf="!isEditMode && form.startDate">
+          {{ form.startDate | date:'EEEE, MMMM d, y' }}
+        </p>
+      </div>
+      <button class="popup-close" (click)="closePopup()">✕</button>
+    </div>
+
+    <!-- Body -->
+    <div class="popup-body">
+
+      <!-- Event Name -->
+      <div class="form-group">
+        <label class="form-label">Event Name <span class="required">*</span></label>
+        <input class="form-input" type="text" [(ngModel)]="form.eventName"
+          placeholder="e.g. Sprint Planning" maxlength="80" />
+      </div>
+
+      <!-- Date Range -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Start Date <span class="required">*</span></label>
+          <input class="form-input" type="date" [(ngModel)]="form.startDate" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">End Date <span class="required">*</span></label>
+          <input class="form-input" type="date" [(ngModel)]="form.endDate" [min]="form.startDate" />
+        </div>
+      </div>
+
+      <!-- Purpose -->
+      <div class="form-group">
+        <label class="form-label">Event Purpose <span class="required">*</span></label>
+        <div class="custom-select-wrap">
+          <select class="form-select" [(ngModel)]="form.purpose">
+            <option *ngFor="let p of purposeOptions" [value]="p.value">{{ p.label }}</option>
+          </select>
+          <span class="select-color-dot" [style.background]="getPurposeColor(form.purpose)"></span>
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group">
+        <label class="form-label">Event Status <span class="required">*</span></label>
+        <div class="custom-select-wrap">
+          <select class="form-select" [(ngModel)]="form.status">
+            <option *ngFor="let s of statusOptions" [value]="s.value">{{ s.label }}</option>
+          </select>
+          <span class="select-color-dot" [style.background]="getStatusColor(form.status)"></span>
+        </div>
+      </div>
+
+      <!-- Status quick-pick pills -->
+      <div class="status-pills">
+        <span
+          *ngFor="let s of statusOptions"
+          class="status-pill"
+          [class.active]="form.status === s.value"
+          [style.--pill-color]="getStatusColor(s.value)"
+          (click)="form.status = $any(s.value)"
+        >
+          <span class="pill-dot" [style.background]="getStatusColor(s.value)"></span>
+          {{ s.label }}
+        </span>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="popup-footer">
+      <button class="btn-delete" *ngIf="isEditMode" (click)="deleteEvent()">🗑 Delete</button>
+      <div class="footer-right">
+        <button class="btn-reset" (click)="resetForm()">Reset</button>
+        <button class="btn-save" [disabled]="!isFormValid()" (click)="saveEvent()">
+          {{ isEditMode ? '💾 Update' : '✅ Save Event' }}
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

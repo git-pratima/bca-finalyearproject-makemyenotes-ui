@@ -1,0 +1,104 @@
+<!-- Enhanced Edit Question Page -->
+<!-- All Angular bindings preserved exactly as original -->
+
+<div class="product-form-page">
+  <p *ngIf="message" class="message">{{message}}</p>
+
+  <div class="form-header">
+    <span class="form-eyebrow">Editor</span>
+    <h1>Edit Question</h1>
+  </div>
+
+  <form (submit)="handleSubmit($event)" class="question-form">
+
+    <!-- Row 1: Category + Sub Category -->
+    <div class="form-row three-col">
+      <div class="form-group">
+        <label>Category</label>
+        <select [(ngModel)]="category" name="category" (change)="onChangeCategory($event)" required>
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categoryList" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Sub Category</label>
+        <select [(ngModel)]="subCategory" name="subCategory" [ngModelOptions]="{ standalone: true }" required (change)="onSubCategoryChange($event)">
+          <option value="">Select a Sub Category</option>
+          <option *ngFor="let subCategory of subCategoryList" [value]="subCategory">{{ subCategory }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Topic</label>
+        <select [(ngModel)]="topic" name="topic" required>
+          <option value="">Select a Topic</option>
+          <option *ngFor="let topic of topicList" [value]="topic">{{ topic }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Row 2: Bookmark + Type + Level -->
+    <div class="form-row three-col">
+      <div class="form-group">
+        <label>Bookmark <span class="star">⭐</span></label>
+        <select name="bookmark" [(ngModel)]="bookmark">
+          <option value="" disabled>Select</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Type</label>
+        <select name="type" [(ngModel)]="type" [ngModelOptions]="{ standalone: true }">
+          <option value="" disabled>Select</option>
+          <option value="theory">Theoretical</option>
+          <option value="practical">Hands On</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Complex Level</label>
+        <select name="type" [(ngModel)]="level">
+          <option value="" disabled>Select</option>
+          <option value="beginner">Beginner Level</option>
+          <option value="medium">Medium Level</option>
+          <option value="experience">Experienced Level</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Question -->
+    <div class="form-group">
+      <label>Question</label>
+      <input type="text" [(ngModel)]="question" name="question" required placeholder="e.g. What is Java?">
+    </div>
+
+    <!-- Answer -->
+    <div class="form-group">
+      <label>Answer</label>
+      <textarea [(ngModel)]="answer" name="answer" required style="height: 200px;" placeholder="Write the answer here..."></textarea>
+    </div>
+
+    <!-- Reference Image -->
+    <div class="form-group">
+      <label>Reference Image</label>
+      <div class="file-upload-wrap">
+        <input type="file" (change)="handleImageChange($event)" id="fileInput">
+        <label for="fileInput" class="file-upload-label">
+          <span class="upload-icon">↑</span>
+          Choose File
+        </label>
+      </div>
+      <div *ngIf="imageUrl" class="image-preview-wrap">
+        <img [src]="imageUrl" alt="preview" class="image-preview" style="height: 500px;">
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <button type="submit" class="submit-btn">Save Question</button>
+    </div>
+
+  </form>
+</div>

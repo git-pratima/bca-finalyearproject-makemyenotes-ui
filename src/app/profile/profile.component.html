@@ -1,0 +1,50 @@
+<!-- Enhanced Profile Page -->
+<!-- All Angular bindings preserved exactly as original -->
+
+<div class="profile-page">
+  <p *ngIf="message" class="message">{{message}}</p>
+
+  <div *ngIf="user" class="profile-card">
+
+    <!-- Avatar + Greeting -->
+    <div class="profile-hero">
+      <div class="avatar">
+        <span class="avatar-initials">{{user.name | slice:0:1}}</span>
+        <span class="avatar-ring"></span>
+      </div>
+      <div class="greeting-text">
+        <span class="greeting-eyebrow">Welcome back</span>
+        <h1>Hello, {{user.name}} ☺️</h1>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="card-divider"></div>
+
+    <!-- Info Grid -->
+    <div class="profile-info">
+
+      <div class="profile-item">
+        <label>Name</label>
+        <span>{{user.name}}</span>
+      </div>
+
+      <div class="profile-item">
+        <label>Email</label>
+        <span>{{user.email}}</span>
+      </div>
+
+      <div class="profile-item">
+        <label>Phone Number</label>
+        <span>{{user.phoneNumber}}</span>
+      </div>
+
+      <div class="profile-item">
+        <label>Role</label>
+        <span class="role-badge">{{user.role}}</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>

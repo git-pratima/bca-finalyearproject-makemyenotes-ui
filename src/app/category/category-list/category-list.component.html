@@ -1,0 +1,93 @@
+<!-- Enhanced Category List Page -->
+<!-- All Angular bindings preserved exactly as original -->
+
+<div class="category-page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <span class="header-eyebrow">Management</span>
+      <h2>Category List</h2>
+    </div>
+    <button class="add-btn" (click)="addCategory()">
+      <span class="btn-icon">+</span> Add Category
+    </button>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-form">
+    <select [(ngModel)]="searchForm.category" name="category" (change)="onCategoryChange($event)">
+      <option value="">Select Category</option>
+      <option *ngFor="let cat of categoryList" [value]="cat">{{cat}}</option>
+    </select>
+
+    <select [(ngModel)]="searchForm.subCategory" name="subCategory" (change)="onSubCategoryChange($event)">
+      <option value="">Select SubCategory</option>
+      <option *ngFor="let subCat of subCategoryList" [value]="subCat">{{subCat}}</option>
+    </select>
+
+    <select [(ngModel)]="searchForm.topic" name="topic" (change)="ontopicChange($event)">
+      <option value="">Select Topic</option>
+      <option *ngFor="let topic of topicList" [value]="topic">{{topic}}</option>
+    </select>
+
+    <select [(ngModel)]="searchForm.active" name="active" (change)="search()">
+      <option value="">Active?</option>
+      <option value="Y">Yes</option>
+      <option value="N">No</option>
+    </select>
+
+    <div class="search-actions">
+      <button class="search-btn" (click)="search()">Search</button>
+      <button class="reset-btn" (click)="resetSearch()">Reset</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th class="col-id" (click)="sort('id')">ID <span class="sort-icon">↕</span></th>
+        <th (click)="sort('category')">Category <span class="sort-icon">↕</span></th>
+        <th (click)="sort('subCategory')">SubCategory <span class="sort-icon">↕</span></th>
+        <th (click)="sort('topic')">Topic <span class="sort-icon">↕</span></th>
+        <th (click)="sort('active')">Active <span class="sort-icon">↕</span></th>
+        <th class="col-actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of categories">
+        <td class="col-id">{{cat.id}}</td>
+        <td><span class="category-pill">{{cat.category}}</span></td>
+        <td>{{cat.subCategory}}</td>
+        <td><code class="ref-code">{{cat.topic}}</code></td>
+        <td class="col-active">
+          <span class="active-badge" [class.active]="cat.active === 'Yes' || cat.active === 'Y'">
+            {{cat.active}}
+          </span>
+        </td>
+        <td class="col-actions">
+          <button class="action-btn view" (click)="viewCategory(cat.id)">View</button>
+          <button class="action-btn edit" (click)="updateCategory(cat.id)">Edit</button>
+          <button class="action-btn delete" (click)="deleteCategory(cat.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button (click)="changePage(page-1)" [disabled]="page===0">← Prev</button>
+  <span>Page {{page+1}} of {{totalPages}}</span>
+  <button (click)="changePage(page+1)" [disabled]="page+1>=totalPages">Next →</button>
+  <label class="page-size-label">
+    Page Size:
+    <select (change)="changeSize($event)" [value]="size">
+      <option *ngFor="let s of [5,10,20]" [value]="s">{{s}}</option>
+    </select>
+  </label>
+</div>

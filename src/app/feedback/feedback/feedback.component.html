@@ -1,0 +1,107 @@
+<!-- Enhanced Feedback List Page -->
+<!-- All Angular bindings preserved exactly as original -->
+
+<div class="feedback-page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <span class="header-eyebrow">Admin Panel</span>
+      <h2>Feedback</h2>
+    </div>
+  </div>
+
+  <!-- Search Form -->
+  <div class="search-form">
+
+    <select [(ngModel)]="searchForm.rating" name="rating">
+      <option value="">Select Rating</option>
+      <option value="">All</option>
+      <option value="1">⭐ 1 Star</option>
+      <option value="2">⭐⭐ 2 Stars</option>
+      <option value="3">⭐⭐⭐ 3 Stars</option>
+      <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+      <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+    </select>
+
+    <select [(ngModel)]="searchForm.seen" name="seen">
+      <option value="">Seen Status</option>
+      <option value="">All</option>
+      <option value="Yes">Read</option>
+      <option value="No">Unread</option>
+    </select>
+
+    <div class="date-field">
+      <label>Start Date</label>
+      <input type="date" id="startOfDay" [(ngModel)]="searchForm.startOfDay" />
+    </div>
+
+    <div class="date-field">
+      <label>End Date</label>
+      <input type="date" id="endOfDay" [(ngModel)]="searchForm.endOfDay" />
+    </div>
+
+    <div class="search-actions">
+      <button class="search-btn" (click)="search()">Search</button>
+      <button class="reset-btn" (click)="resetSearch()">Reset</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th (click)="sort('id')">ID <span class="sort-icon">↕</span></th>
+          <th (click)="sort('rating')">Rating <span class="sort-icon">↕</span></th>
+          <th (click)="sort('createdBy')">Submitted By <span class="sort-icon">↕</span></th>
+          <th (click)="sort('createdAt')">Submitted On <span class="sort-icon">↕</span></th>
+          <th>Message</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let feedback of feedbacks" [class.unread-row]="feedback.seen === 'No'">
+          <td class="col-id">{{feedback.id}}</td>
+          <td class="col-stars">
+            <ng-container *ngFor="let star of [].constructor(feedback.rating)">⭐</ng-container>
+          </td>
+          <td class="col-user">{{feedback.createdBy}}</td>
+          <td class="col-date">{{ feedback.createdAt | date:'MMM d, y' }}</td>
+          <td class="col-message">
+            <span class="message-text">{{feedback.message}}</span>
+          </td>
+          <td class="col-actions">
+            <button
+              *ngIf="feedback.seen === 'No'"
+              class="action-btn read"
+              (click)="markAsRead(feedback.id)">
+              Mark Read
+            </button>
+            <button
+              *ngIf="feedback.seen === 'Yes'"
+              class="action-btn un-read"
+              (click)="markAsRead(feedback.id)">
+              Mark Unread
+            </button>
+            <button class="action-btn delete" (click)="deleteFeedback(feedback.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Pagination -->
+<div class="pagination">
+  <button (click)="changePage(page-1)" [disabled]="page===0">← Prev</button>
+  <span>Page {{page+1}} of {{totalPages}}</span>
+  <button (click)="changePage(page+1)" [disabled]="page+1>=totalPages">Next →</button>
+  <label class="page-size-label">
+    Page Size:
+    <select (change)="changeSize($event)" [value]="size">
+      <option *ngFor="let s of [5,10,20]" [value]="s">{{s}}</option>
+    </select>
+  </label>
+</div>

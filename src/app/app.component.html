@@ -1,0 +1,150 @@
+<!-- Enhanced Navbar + Sidebar + Feedback Modal -->
+<!-- All Angular bindings preserved exactly as original -->
+
+      <div class="dashboard-container">
+        <app-loader></app-loader>   <!-- ← moved here, out of app shell -->
+
+        <!-- rest of dashboard content -->
+        <div class="stats-cards"> ... </div>
+      </div>
+
+
+<!-- ── NAVBAR ── -->
+<div class="navbar">
+  <div class="navbar-left">
+    <span class="navbar-title">Make My e Notes</span>
+  </div>
+  <div class="navbar-right">
+    <ng-container *ngIf="!isAuth()">
+      <a routerLink="/login" class="nav-btn ghost">Login</a>
+      <a routerLink="/register" class="nav-btn primary">Register</a>
+    </ng-container>
+    <ng-container *ngIf="isAuth()">
+      <span class="username">{{ userName }}</span>
+      <div class="emoji-square">
+        <span (click)="openFeedback()">🙂</span>
+        <span (click)="openFeedback()">😐</span>
+        <span (click)="openFeedback()">🙁</span>
+        <span (click)="openFeedback()">🤩</span>
+      </div>
+      <button class="nav-btn danger" (click)="logOut()">Logout</button>
+    </ng-container>
+  </div>
+</div>
+
+<!-- ── FEEDBACK MODAL ── -->
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <span class="modal-eyebrow">Your Opinion Matters</span>
+      <h3>Give Your Feedback</h3>
+    </div>
+
+    <!-- Star Rating -->
+    <div class="stars">
+      <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+        <span
+          class="star"
+          [class.filled]="(i + 1) <= rating"
+          [class.half]="(i + 0.5) === rating"
+          (click)="setRating(i + 1)">
+          ★
+        </span>
+      </ng-container>
+    </div>
+
+    <!-- Comment -->
+    <textarea [(ngModel)]="feedbackText" placeholder="Write your feedback..."></textarea>
+
+    <!-- Actions -->
+    <div class="modal-actions">
+      <button class="modal-btn primary" (click)="submitFeedback()">Submit</button>
+      <button class="modal-btn ghost" (click)="closeModal()">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── LAYOUT ── -->
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <img src="images/logo.png" alt="Make My e Notes Logo" 
+          style="width: 50px; height: 60px; object-fit: contain; display: block; margin: 0 auto;" />
+      </div>
+      <h1 class="ims">Make My e Notes</h1>
+    </div>
+
+    <ul class="nav-links">
+      <li *ngIf="isAuth()">
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <span class="nav-icon">🏠</span> Dashboard
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/transaction" routerLinkActive="active">
+          <span class="nav-icon">🧾</span>All Questions
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/all-question" routerLinkActive="active">
+          <span class="nav-icon">❓</span> My Questions
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/add-question" routerLinkActive="active">
+          <span class="nav-icon">✚</span> Add Question
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/bookmarked-question" routerLinkActive="active">
+          <span class="nav-icon">⭐️</span> My Bookmarked
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/all-category" routerLinkActive="active">
+          <span class="nav-icon">🗂️</span> All Category
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/add-category" routerLinkActive="active">
+          <span class="nav-icon">➕</span> Add Category
+        </a>
+      </li>
+      <li *ngIf="isAuth()">
+        <a routerLink="/event" routerLinkActive="active" >
+          <span class="nav-icon">🗓️</span> Events
+        </a>
+      </li>
+      <li *ngIf="isAdmin()">
+        <a (click)="resetCricketKeys()" routerLinkActive="active" >
+          <span class="nav-icon">🔄️</span> Reset Keys
+        </a>
+      </li>
+
+      <li *ngIf="isAuth()">
+        <a routerLink="/profile" routerLinkActive="active">
+          <span class="nav-icon">👤</span> Profile
+        </a>
+      </li>
+      <li *ngIf="isAuth()" class="logout-item">
+        <a (click)="logOut()">
+          <span class="nav-icon">🔒</span> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+      <router-outlet *ngIf="isNavReady" />
+      <footer style="text-align:center; padding: 1rem; font-size: 0.8rem;">
+  <a href="/privacy">Privacy Policy</a>
+</footer>
+  </div>
+
+</div>

@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page ── */
+.profile-page {
+  min-height: 100vh;
+  background: #0f1117;
+  background-image:
+    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(99, 102, 241, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 80% 85%, rgba(20, 184, 166, 0.09) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 55% 50%, rgba(244, 63, 94, 0.05) 0%, transparent 50%);
+  font-family: 'DM Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+/* ── Message ── */
+.message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  color: #a5b4fc;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 13px;
+  z-index: 100;
+  animation: fadeUp 0.3s ease both;
+}
+
+/* ── Card ── */
+.profile-card {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(18, 20, 30, 0.93);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.08),
+    0 32px 80px rgba(0, 0, 0, 0.6),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+}
+
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #14b8a6, #f43f5e);
+}
+
+/* ── Hero Section ── */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 36px 40px 30px;
+}
+
+/* ── Avatar ── */
+.avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-initials {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45);
+  /* display as block */
+  display: block;
+  line-height: 64px;
+  text-align: center;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(99,102,241,0.4), rgba(20,184,166,0.3)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: ringPulse 3s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.04); }
+}
+
+/* ── Greeting ── */
+.greeting-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.greeting-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6366f1;
+}
+
+.greeting-text h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  font-weight: 400;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* ── Divider ── */
+.card-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0 40px;
+}
+
+/* ── Info Grid ── */
+.profile-info {
+  padding: 8px 0 12px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s ease;
+}
+
+.profile-item:last-child {
+  border-bottom: none;
+}
+
+.profile-item:hover {
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.profile-item label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.profile-item span {
+  font-size: 14px;
+  color: #cbd5e1;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ── Role Badge ── */
+.role-badge {
+  display: inline-block;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  color: #818cf8 !important;
+}
+
+/* ── Animation ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

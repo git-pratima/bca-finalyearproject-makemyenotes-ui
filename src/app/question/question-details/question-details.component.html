@@ -1,0 +1,222 @@
+<div class="page-container">
+  <div class="question-card">
+
+    <!-- Question Header -->
+    <div class="question-header">
+      <p class="question-label">Question</p>
+      <h1 class="question-title">Q. {{question?.question}}</h1>
+    </div>
+
+    <!-- Meta Information — grid layout, stacked label/value -->
+    <div class="question-meta">
+      <p>
+        <strong>Type</strong>
+        <span class="meta-value">{{question?.type}}</span>
+      </p>
+      <p>
+        <strong>Added By</strong>
+        <span class="meta-value">{{question?.createdBy}}</span>
+      </p>
+      <p>
+        <strong>Subcategory</strong>
+        <span class="meta-value">{{question?.subCategory}}</span>
+      </p>
+      <p>
+        <strong>Topic</strong>
+        <span class="meta-value">{{question?.topic}}</span>
+      </p>
+      <p>
+        <strong>Last Modified</strong>
+        <span class="meta-value">{{ question?.modifiedDate | date:'dd MMM, yyyy' }}</span>
+      </p>
+    </div>
+
+    <!-- Reading Theme -->
+    <div class="theme-panel" [class.open]="themeOpen">
+      <button class="theme-toggle-btn" (click)="themeOpen = !themeOpen">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+        </svg>
+        Reading theme
+      </button>
+
+      <div class="theme-picker" *ngIf="themeOpen">
+
+        <!-- Tabs row + actions on same line -->
+        <div class="picker-top-row">
+          <div class="picker-tabs">
+            <button [class.active]="activeTab === 'bg'" (click)="activeTab = 'bg'">Background</button>
+            <button [class.active]="activeTab === 'text'" (click)="activeTab = 'text'">Text</button>
+          </div>
+
+          <div class="picker-actions">
+            <button class="reset-btn" (click)="resetTheme()">Reset</button>
+            <button class="save-btn" [class.saved]="saveSuccess" (click)="saveTheme()" [disabled]="isSaving || saveSuccess">
+              <ng-container *ngIf="!isSaving && !saveSuccess">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                  <polyline points="17 21 17 13 7 13 7 21"/>
+                  <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                Save
+              </ng-container>
+              <ng-container *ngIf="isSaving">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round" class="spin">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+                Saving…
+              </ng-container>
+              <ng-container *ngIf="saveSuccess">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5"
+                     stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                Saved
+              </ng-container>
+            </button>
+          </div>
+        </div>
+
+        <!-- Swatches -->
+        <div class="swatch-grid">
+          <ng-container *ngIf="activeTab === 'bg'">
+            <div class="swatch" *ngFor="let p of bgPresets"
+              [style.background]="p.color"
+              [class.active]="currentBg === p.color"
+              [title]="p.label"
+              (click)="currentBg = p.color">
+            </div>
+            <label class="custom-swatch" title="Custom">
+              <input type="color" [(ngModel)]="currentBg" />
+            </label>
+          </ng-container>
+
+          <ng-container *ngIf="activeTab === 'text'">
+            <div class="swatch" *ngFor="let p of textPresets"
+              [style.background]="p.color"
+              [class.active]="currentText === p.color"
+              [title]="p.label"
+              (click)="currentText = p.color">
+            </div>
+            <label class="custom-swatch" title="Custom">
+              <input type="color" [(ngModel)]="currentText" />
+            </label>
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Answer Section -->
+    <div class="answer-section" [style.background]="currentBg" [style.color]="currentText">
+      <h2>Answer</h2>
+      <p>{{question.answer}}</p>
+    </div>
+
+    <!-- Image -->
+<div class="image-container">
+  <img 
+    [src]="question.imageurl" 
+    [alt]="question.category"
+    class="question-image"
+    (error)="onImageError($event, question.id)"
+    [title]="imageErrored.has(question.id) ? 'This is a default image added by system since there is no reference image added by user. You can add your image in Edit section.' : ''"
+  />
+</div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button (click)="prevQuestion(question.id)">← Prev</button>
+      <span></span>
+      <button (click)="nextQuestion(question.id)">Next →</button>
+      <div *ngIf="question.createdByCurrentUser === 'Yes'">
+        <button class="edit-btn" (click)="editQuestion(question.id)">Edit</button>
+      </div>
+    </div>
+
+    <!-- Interview Questions Panel -->
+    <div class="interview-panel">
+
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <span class="panel-icon">💬</span>
+          <h2 class="panel-title">Possible Interview Questions</h2>
+          <span class="panel-count">{{ interviewQuestions.length }}</span>
+        </div>
+      </div>
+
+      <div class="iq-list" *ngIf="interviewQuestions.length > 0; else emptyState">
+        <div class="iq-item" *ngFor="let iq of interviewQuestions; let i = index">
+          <span class="iq-index">{{ i + 1 }}</span>
+          <div class="iq-body">
+            <div class="iq-question">{{ iq.question }}</div>
+            <div class="iq-answer-wrapper" [class.expanded]="iq.expanded">
+              <p class="iq-answer">{{ iq.answer }}</p>
+            </div>
+            <button class="toggle-btn" (click)="toggleAnswer(iq)">
+              {{ iq.expanded ? 'Hide answer ▲' : 'Show answer ▼' }}
+            </button>
+            <div class="iq-meta">
+              <span class="iq-author">👤 {{ iq.addedBy }}</span>
+              <span class="iq-date">{{ iq.createdDate | date:'dd MMM, yyyy' }}</span>
+            </div>
+          </div>
+          <div class="iq-actions">
+            <button class="action-btn edit" (click)="editInterviewQuestion(iq)">Edit</button>
+            <button class="action-btn delete" (click)="deleteInterviewQuestion(iq.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="empty-state">
+          <p>No interview questions yet.</p>
+        </div>
+      </ng-template>
+
+      <div class="panel-footer">
+        <button class="add-btn" (click)="openAddModal()">+ Add</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="isModalOpen" (click)="closeModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ isEditMode ? 'Edit' : 'Add' }} Interview Question</h3>
+      <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <label>Question <span class="required">*</span></label>
+      <input [(ngModel)]="modalForm.question"
+             placeholder="Enter interview question..."
+             class="modal-input" />
+      <label>Answer <span class="required">*</span></label>
+      <textarea [(ngModel)]="modalForm.answer"
+                rows="4"
+                placeholder="Enter the answer..."
+                class="modal-textarea"></textarea>
+      <label>Expanded</label>
+      <select [(ngModel)]="modalForm.expanded" class="modal-input">
+        <option [ngValue]="true">Yes</option>
+        <option [ngValue]="false" selected>No</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-save" (click)="saveInterviewQuestion()">
+        {{ isEditMode ? 'Update' : 'Save' }}
+      </button>
+    </div>
+  </div>
+</div>

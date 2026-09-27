@@ -1,0 +1,267 @@
+<div class="page-container">
+
+  <!-- Page Title -->
+  <div class="page-header">
+    <h2 class="page-title">All Transactions</h2>
+    <span class="results-pill">{{ totalElements }} questions</span>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar">
+    <div class="filter-grid">
+      <div class="filter-select-wrap">
+        <span class="filter-icon">⬡</span>
+        <select [(ngModel)]="searchForm.category" (change)="onCategoryChange($event)">
+          <option value="">Categories</option>
+          <option *ngFor="let cat of categoryList">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div class="filter-select-wrap">
+        <span class="filter-icon">◈</span>
+        <select [(ngModel)]="searchForm.subCategory" (change)="onSubCategoryChange($event)">
+          <option value="">Subcategories</option>
+          <option *ngFor="let sub of subCategoryList">{{ sub }}</option>
+        </select>
+      </div>
+
+      <div class="filter-select-wrap">
+        <span class="filter-icon">◎</span>
+        <select [(ngModel)]="searchForm.topic" (change)="loadQuestions()">
+          <option value="">Topic</option>
+          <option *ngFor="let topic of topicList">{{ topic }}</option>
+        </select>
+      </div>
+
+      <div class="filter-select-wrap">
+        <span class="filter-icon">◷</span>
+        <select [(ngModel)]="searchForm.type" (change)="loadQuestions()">
+          <option value="">Type</option>
+          <option value="theory">Theoretical</option>
+          <option value="practical">Hands On</option>
+        </select>
+      </div>
+
+      <div class="filter-select-wrap">
+        <span class="filter-icon">◈</span>
+        <select [(ngModel)]="searchForm.level" (change)="loadQuestions()">
+          <option value="">Level</option>
+          <option value="beginner">Beginner</option>
+          <option value="midium">Medium</option>
+          <option value="experience">Experienced</option>
+        </select>
+      </div>
+
+      <div class="filter-select-wrap">
+        <span class="filter-icon">★</span>
+        <select [(ngModel)]="searchForm.bookmark" (change)="loadQuestions()">
+          <option value="">Bookmarked</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="filter-search-row">
+      <div class="search-wrap">
+        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search questions..."
+          [(ngModel)]="searchForm.searchText"
+          (input)="loadQuestions()"
+        />
+      </div>
+      <button class="reset-btn" (click)="resetFilters()">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="14" height="14">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <!-- ── DESKTOP TABLE (hidden on mobile) ── -->
+  <div class="tbl-wrap desktop-only">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th class="col-question" (click)="sort('question')" style="cursor:pointer">
+            Question
+            <span class="sort-arrow" *ngIf="sortBy === 'question'">{{ direction === 'asc' ? '▲' : '▼' }}</span>
+          </th>
+          <th class="col-bookmark">★</th>
+          <th class="col-category">Category</th>
+          <th class="col-subcategory">Subcategory</th>
+          <th class="col-topic">Topic</th>
+          <th class="col-type">Type</th>
+          <th class="col-date" (click)="sort('modifiedDate')" style="cursor:pointer">
+            Last Modified
+            <span class="sort-arrow" *ngIf="sortBy === 'modifiedDate'">{{ direction === 'asc' ? '▲' : '▼' }}</span>
+          </th>
+          <th class="col-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of questions; let i = index">
+
+          <td class="col-num">
+            <span class="num">{{ question.pid }}</span>
+          </td>
+
+          <td class="col-question">
+            <div class="question-text">{{ question.question }}</div>
+          </td>
+
+          <td class="col-bookmark">
+            <button
+              class="bookmark-btn"
+              [class.bookmarked]="question.bookmark === 'Yes'"
+              (click)="toggleBookmark(question)"
+              [title]="question.bookmark === 'Yes' ? 'Remove bookmark' : 'Add bookmark'"
+            >
+              <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+              </svg>
+            </button>
+          </td>
+
+          <td class="col-category">
+            <span class="badge" [ngStyle]="getCategoryStyle(question.category)">
+              {{ question.category }}
+            </span>
+          </td>
+
+          <td class="col-subcategory">
+            <span class="badge" [ngStyle]="getSubCategoryStyle(question.subCategory)" [title]="question.subCategory">
+              {{ question.subCategory }}
+            </span>
+          </td>
+
+          <td class="col-topic">
+            <span class="badge badge-topic" [title]="question.topic">
+              {{ question.topic }}
+            </span>
+          </td>
+
+          <td class="col-type">
+            <span class="badge" [ngClass]="{
+              'badge-theory':    question.type === 'theory',
+              'badge-practical': question.type === 'practical'
+            }">{{ question.type }}</span>
+          </td>
+
+          <td class="col-date">
+            <span class="date-text">{{ question.modifiedDate | date:'dd MMM, yyyy' }}</span>
+          </td>
+
+          <td class="col-actions">
+            <button class="btn btn-view"   (click)="navigateToViewQuestionDetails(question.id)">View</button>
+            <ng-container *ngIf="question.createdByCurrentUser === 'Yes'">
+              <button class="btn btn-edit"   (click)="navigateToEditProductPage(question.id)">Edit</button>
+              <button class="btn btn-delete" (click)="deleteQuestion(question.id)">Delete</button>
+            </ng-container>
+          </td>
+        </tr>
+
+        <tr *ngIf="questions.length === 0">
+          <td colspan="9" class="empty-row">
+            <div class="empty-state">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+                <circle cx="32" cy="32" r="30" stroke="#2a3050" stroke-width="2"/>
+                <path d="M22 32h20M32 22v20" stroke="#3a4060" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span>No questions found.</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── MOBILE CARDS (hidden on desktop) ── -->
+  <div class="mobile-only">
+    <div class="card-list" *ngIf="questions.length > 0">
+      <div class="q-card" *ngFor="let question of questions; let i = index">
+        <div class="q-card-top">
+          <span class="num">{{ question.pid }}</span>
+          <div class="q-card-badges">
+            <span class="badge" [ngStyle]="getCategoryStyle(question.category)">{{ question.category }}</span>
+            <span class="badge" [ngClass]="{ 'badge-theory': question.type === 'theory', 'badge-practical': question.type === 'practical' }">{{ question.type }}</span>
+          </div>
+          <button
+            class="bookmark-btn"
+            [class.bookmarked]="question.bookmark === 'Yes'"
+            (click)="toggleBookmark(question)"
+            [title]="question.bookmark === 'Yes' ? 'Remove bookmark' : 'Add bookmark'"
+          >
+            <svg class="star-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="q-card-question">{{ question.question }}</div>
+
+        <div class="q-card-meta">
+          <span class="meta-item">
+            <span class="meta-label">Sub</span>
+            <span class="badge" [ngStyle]="getSubCategoryStyle(question.subCategory)" [title]="question.subCategory">{{ question.subCategory }}</span>
+          </span>
+          <span class="meta-item">
+            <span class="meta-label">Topic</span>
+            <span class="badge badge-topic" [title]="question.topic">{{ question.topic }}</span>
+          </span>
+          <span class="meta-item">
+            <span class="meta-label">Date</span>
+            <span class="date-text">{{ question.modifiedDate | date:'dd MMM, yyyy' }}</span>
+          </span>
+        </div>
+
+        <div class="q-card-actions">
+          <button class="btn btn-view"   (click)="navigateToViewQuestionDetails(question.id)">View</button>
+          <ng-container *ngIf="question.createdByCurrentUser === 'Yes'">
+            <button class="btn btn-edit"   (click)="navigateToEditProductPage(question.id)">Edit</button>
+            <button class="btn btn-delete" (click)="deleteQuestion(question.id)">Delete</button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="questions.length === 0">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40">
+        <circle cx="32" cy="32" r="30" stroke="#2a3050" stroke-width="2"/>
+        <path d="M22 32h20M32 22v20" stroke="#3a4060" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>No questions found.</span>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-bar">
+    <div class="pagination-info">
+      Showing {{ page * size + 1 }}–{{ page * size + questions.length }} of {{ totalElements }} results
+    </div>
+
+    <div class="pagination-controls">
+      <button (click)="changePage(0)"              [disabled]="page === 0"               class="page-btn">«</button>
+      <button (click)="changePage(page - 1)"       [disabled]="page === 0"               class="page-btn">‹ Prev</button>
+      <span class="page-indicator">{{ page + 1 }} / {{ totalPages }}</span>
+      <button (click)="changePage(page + 1)"       [disabled]="(page + 1) >= totalPages" class="page-btn">Next ›</button>
+      <button (click)="changePage(totalPages - 1)" [disabled]="(page + 1) >= totalPages" class="page-btn">»</button>
+    </div>
+
+    <label class="page-size-wrap">
+      Per page:
+      <select (change)="changeSize($event)" [value]="size">
+        <option *ngFor="let s of [5, 10, 15, 25]" [value]="s">{{ s }}</option>
+      </select>
+    </label>
+  </div>
+</div>
