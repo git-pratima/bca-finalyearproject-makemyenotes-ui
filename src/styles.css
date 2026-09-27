@@ -91,6 +91,18 @@ html[data-theme='light'] app-update-category {
   color: #1f2937;
 }
 
+html[data-theme='light'] app-dashboard {
+  --dash-bg: #f4f6fb;
+  --dash-surface: #ffffff;
+  --dash-surface-raised: #f8fafc;
+  --dash-border: #dfe5ed;
+  --dash-text: #172033;
+  --dash-muted: #5f6b7a;
+  --dash-subtle: #748094;
+  --dash-accent: #4f46e5;
+  --dash-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+
 html[data-theme='light'] .sidebar {
   background: rgba(255, 255, 255, 0.97);
   border-right-color: #e2e8f0;
@@ -274,7 +286,6 @@ html[data-theme='light'] .profile-item label { color: #64748b; }
 html[data-theme='light'] .profile-item span { color: #334155; }
 html[data-theme='light'] .card-divider { background: #e2e8f0; }
 
-html[data-theme='light'] .weather-card,
 html[data-theme='light'] .future-events-card,
 html[data-theme='light'] .theory-practical-card {
   background: #fff;
@@ -672,6 +683,24 @@ html[data-theme='light'] app-root .category-page ~ .pagination .page-size-label 
   background: #fff !important;
   border-color: #cbd5e1 !important;
   color: #334155 !important;
+}
+
+html[data-theme='light'] app-root app-dashboard .user-table tbody tr {
+  background: #fff !important;
+}
+
+html[data-theme='light'] app-root app-dashboard .user-table tbody tr:hover,
+html[data-theme='light'] app-root app-dashboard .user-table tbody tr:focus-within {
+  background: #eef2ff !important;
+}
+
+html[data-theme='light'] app-root app-dashboard .user-table tbody tr:active {
+  background: #e0e7ff !important;
+}
+
+html[data-theme='light'] app-root app-dashboard .user-table tbody td {
+  border-bottom-color: #e2e8f0 !important;
+  color: #1f2937 !important;
 }
 
 html[data-theme='light'] app-root app-home .section-cta .cta-inner {

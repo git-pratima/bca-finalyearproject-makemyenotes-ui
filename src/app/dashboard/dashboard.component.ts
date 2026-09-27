@@ -11,17 +11,6 @@ import { Subscription } from 'rxjs';
 
 interface Todo1 { id: string; completed: string; task: string }
 
-interface WeatherCard {
-  city: string;
-  currentTemp: number;
-  zone: string;
-  weatherType: string;
-  hTemp: number;
-  lTemp: number;
-  humidity: number;
-  lastUpdated: string;
-}
-
 interface FutureEvent {
   id: number;
   eventName: string;
@@ -57,17 +46,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   registeredUsers: RegisteredUser[] = [];
 
-  weatherCard: WeatherCard = {
-    city: '',
-    currentTemp: 0,
-    zone: '',
-    weatherType: '',
-    hTemp: 0,
-    lTemp: 0,
-    humidity: 0,
-    lastUpdated: ''
-  };
-
   getInitial(name: string): string {
     return name ? name.charAt(0).toUpperCase() : '?';
   }
@@ -99,7 +77,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userName = localStorage.getItem("username");
     this.loadDashboardData();
-    this.loadTemperature();
     this.loadOnlineUsers();
   }
 
@@ -179,35 +156,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.apiService.loadOnlineUsers().subscribe(response => {
       this.registeredUsers = response.users;
     });
-  }
-
-  // ── Weather ───────────────────────────────────────────────
-
-  selectedCity: string = '';
-
-  loadTemperature(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        this.apiService.getCity(lat, lng).subscribe(res => {
-          this.selectedCity = res.city;
-          this.apiService.getCurrentWeather(this.selectedCity).subscribe(weather => {
-            const timeOnly = weather.current.last_updated.split(' ')[1];
-            this.weatherCard = {
-              city: weather.location.name + ',' + weather.location.region,
-              currentTemp: weather.current.temp_c,
-              zone: weather.location.tz_id,
-              weatherType: weather.current.condition.text,
-              hTemp: weather.current.temp_c,
-              lTemp: weather.current.temp_c,
-              humidity: weather.current.humidity,
-              lastUpdated: timeOnly
-            };
-          });
-        });
-      });
-    }
   }
 
   // ── Summary Cards ─────────────────────────────────────────

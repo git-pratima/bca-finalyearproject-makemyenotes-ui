@@ -5,17 +5,6 @@ export interface feedbackModel {
   };
 
 
-interface WeatherCard {
-  city: string;
-  currentTemp: number;
-  zone: string;
-  weatherType: string;
-  hTemp: number;
-  lTemp: number;
-  humidity: number;
-  lastUpdated: string;
-}
-
 export interface CategorySearch  {
       category: '',
       subCategory: '',

@@ -2,7 +2,6 @@ import { EventEmitter, Injectable, inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import CryptoJS from "crypto-js";
 import { environment } from '../environments/environment';
 
 @Injectable({
@@ -16,10 +15,6 @@ export class ApiService {
   private platformId = inject(PLATFORM_ID);
 
   constructor(private http: HttpClient) {}
-
-  private apiEndPoint = "/weather-api/v1/current.json";
-  private apiEndPointKey = "d8bcb02f353742858d8110349262202";
-  private cityUrl = "https://api-bdc.io/data/reverse-geocode-client?";
 
   // ✅ single safe accessor — all localStorage calls go through here
   public getStorage(key: string): string | null {
@@ -37,9 +32,7 @@ export class ApiService {
 
   private clearAuth(): void {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      localStorage.removeItem("username");
+      localStorage.clear();
       sessionStorage.clear();
     }
   }
@@ -59,14 +52,6 @@ export class ApiService {
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-  }
-
-  getCurrentWeather(cityName: string): Observable<any> {
-    return this.http.get(`${this.apiEndPoint}?key=${this.apiEndPointKey}&q=${cityName}`);
-  }
-
-  getCity(lat: number, lon: number): Observable<any> {
-    return this.http.get(`${this.cityUrl}?latitude=${lat}&longitude=${lon}&localityLanguage=en`);
   }
 
   loadOnlineUsers(): Observable<any> {
