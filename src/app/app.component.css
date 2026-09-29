@@ -52,6 +52,10 @@
 }
 
 .theme-switch {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 99;
   width: 36px;
   height: 36px;
   padding: 0;
