@@ -178,6 +178,7 @@
   color: #cbd5e1;
   font-weight: 400;
   letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
 }
 
 /* ── Role Badge ── */
@@ -192,6 +193,57 @@
   background: rgba(99, 102, 241, 0.12);
   border: 1px solid rgba(99, 102, 241, 0.22);
   color: #818cf8 !important;
+}
+
+@media (max-width: 600px) {
+  .profile-page {
+    align-items: flex-start;
+    padding: 24px 12px;
+  }
+
+  .profile-card {
+    border-radius: 16px;
+  }
+
+  .profile-hero {
+    gap: 14px;
+    padding: 24px 20px;
+  }
+
+  .greeting-text h1 {
+    font-size: 22px;
+    overflow-wrap: anywhere;
+  }
+
+  .card-divider {
+    margin: 0 20px;
+  }
+
+  .profile-item {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 20px;
+  }
+
+  .profile-item span {
+    text-align: right;
+  }
+}
+
+@media (max-width: 380px) {
+  .profile-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-item {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .profile-item span {
+    text-align: left;
+  }
 }
 
 /* ── Animation ── */

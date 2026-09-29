@@ -31,7 +31,23 @@ button:hover {
     margin-bottom: 30px;
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: hidden; }
+app-root { display: block; min-height: 100%; }
+img, video, canvas { max-width: 100%; }
+input, textarea, select { max-width: 100%; }
+
+@media (max-width: 768px) {
+  table { max-width: 100%; }
+
+  .table-wrap,
+  .tbl-wrap,
+  .feedback-table-wrap,
+  .user-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
 
 html[data-theme='light'] body {
   background: #f4f6fb;

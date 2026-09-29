@@ -45,6 +45,7 @@ export class AppComponent implements OnInit{
 
 // Add property
 isNavReady = false;
+isMobileNavOpen = false;
 
 // Update ngOnInit
 ngOnInit(): void {
@@ -59,8 +60,17 @@ ngOnInit(): void {
     filter(event => event instanceof NavigationEnd)
   ).subscribe(() => {
     this.isNavReady = true;
+    this.isMobileNavOpen = false;
   });
 }
+
+  toggleMobileNav(): void {
+    this.isMobileNavOpen = !this.isMobileNavOpen;
+  }
+
+  closeMobileNav(): void {
+    this.isMobileNavOpen = false;
+  }
 
   toggleTheme(): void {
     this.theme = this.theme === 'dark' ? 'light' : 'dark';

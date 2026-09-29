@@ -12,6 +12,15 @@
 <!-- ── NAVBAR ── -->
 <div class="navbar">
   <div class="navbar-left">
+    <button
+      type="button"
+      class="menu-toggle"
+      (click)="toggleMobileNav()"
+      [attr.aria-expanded]="isMobileNavOpen"
+      aria-controls="app-sidebar"
+      [attr.aria-label]="isMobileNavOpen ? 'Close navigation menu' : 'Open navigation menu'">
+      <span aria-hidden="true">{{ isMobileNavOpen ? '×' : '☰' }}</span>
+    </button>
     <span class="navbar-title">Make My e Notes</span>
   </div>
   <div class="navbar-right">
@@ -69,7 +78,8 @@
 <div class="dashboard-layout">
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="mobile-nav-backdrop" *ngIf="isMobileNavOpen" (click)="closeMobileNav()"></div>
+  <div class="sidebar" id="app-sidebar" [class.mobile-open]="isMobileNavOpen">
     <div class="sidebar-brand">
       <div class="brand-icon">
         <img src="images/logo.png" alt="Make My e Notes Logo" 
