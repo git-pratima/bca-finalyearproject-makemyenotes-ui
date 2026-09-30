@@ -15,16 +15,16 @@
 
 /* ── DESIGN TOKENS ───────────────────────────────────── */
 :host {
-  /* accent: electric blue */
-  --accent:        #4f8ef7;
-  --accent-hover:  #79aaff;
-  --accent-soft:   rgba(79, 142, 247, 0.1);
-  --accent-border: rgba(79, 142, 247, 0.22);
-  --accent-glow:   rgba(79, 142, 247, 0.18);
+  /* primary accent */
+  --accent:        #45b7a7;
+  --accent-hover:  #79d1c4;
+  --accent-soft:   rgba(69, 183, 167, 0.1);
+  --accent-border: rgba(69, 183, 167, 0.22);
+  --accent-glow:   rgba(69, 183, 167, 0.18);
 
-  /* secondary accent: violet */
-  --violet:        #a78bfa;
-  --violet-soft:   rgba(167, 139, 250, 0.1);
+  /* warm supporting accent */
+  --violet:        #e29272;
+  --violet-soft:   rgba(226, 146, 114, 0.1);
 
   /* text */
   --ink:           #e6edf3;
@@ -41,7 +41,7 @@
   /* borders */
   --border:        rgba(240, 246, 252, 0.1);
   --border-soft:   rgba(240, 246, 252, 0.05);
-  --border-hover:  rgba(79, 142, 247, 0.4);
+  --border-hover:  rgba(69, 183, 167, 0.4);
 
   /* radii */
   --r-sm:  6px;
@@ -54,7 +54,7 @@
   --shadow-sm:     0 1px 4px rgba(0,0,0,0.5);
   --shadow-md:     0 4px 20px rgba(0,0,0,0.6);
   --shadow-lg:     0 16px 48px rgba(0,0,0,0.7);
-  --shadow-accent: 0 8px 32px rgba(79,142,247,0.2);
+  --shadow-accent: 0 8px 32px rgba(69,183,167,0.2);
 
   display: block;
   background: var(--bg);

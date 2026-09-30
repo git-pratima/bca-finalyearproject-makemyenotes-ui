@@ -24,7 +24,7 @@
   background: #111111;
   border: 1px solid #222222;
   border-radius: 20px;
-  padding: 4px 40px;
+  padding: 28px 36px;
   width: 100%;
   max-width: 420px;
   box-shadow:
@@ -48,15 +48,23 @@
   margin-bottom: 1px;
 }
 
+.brand-icon img {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
 .brand h1 {
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: -0.5px;
 }
 
 .brand h1 span {
-  color: #6366f1;
+  color: #45b7a7;
 }
 
 .subtitle {
@@ -141,7 +149,7 @@
 
 .btn-primary {
   margin-top: 4px;
-  background: #6366f1;
+  background: #268f82;
   color: #ffffff;
   border: none;
   border-radius: 10px;
@@ -155,7 +163,7 @@
 }
 
 .btn-primary:hover {
-  background: #5254cc;
+  background: #20796f;
   transform: translateY(-1px);
 }
 
@@ -171,7 +179,7 @@
 }
 
 .login-link a {
-  color: #6366f1;
+  color: #68cbbc;
   text-decoration: none;
   font-weight: 500;
   margin-left: 4px;
@@ -179,4 +187,16 @@
 
 .login-link a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .auth-wrapper {
+    min-height: calc(100dvh - 56px);
+    padding: 20px 14px;
+  }
+
+  .auth-card {
+    padding: 24px 20px;
+    border-radius: 14px;
+  }
 }

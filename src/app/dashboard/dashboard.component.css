@@ -671,7 +671,7 @@ input[type="checkbox"] { accent-color: rgb(0, 100, 0); }
   letter-spacing: 0.4px;
 }
 .badge.admin   { background: rgba(99,102,241,0.15);  color: #818cf8; }
-.badge.manager { background: rgba(16,185,129,0.15);  color: #34d399; }
+.badge.user    { background: rgba(16,185,129,0.15);  color: #34d399; }
 .badge.google  { background: rgba(251,191,36,0.15);  color: #fbbf24; }
 .badge.local   { background: rgba(156,163,175,0.1);  color: #9ca3af; }
 
@@ -791,7 +791,7 @@ input[type="checkbox"] { accent-color: rgb(0, 100, 0); }
   --dash-text: #e7edf4;
   --dash-muted: #9aa9b8;
   --dash-subtle: #738295;
-  --dash-accent: #6478f5;
+  --dash-accent: #45b7a7;
   --dash-shadow: 0 10px 28px rgba(10, 18, 28, 0.18);
   display: block;
   min-height: 100%;
