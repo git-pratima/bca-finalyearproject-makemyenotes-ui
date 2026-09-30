@@ -511,6 +511,15 @@ html[data-theme='light'] app-root :is(
   color: #111827 !important;
 }
 
+html[data-theme='light'] app-root .answer-section,
+html[data-theme='light'] app-root .answer-section p {
+  color: var(--answer-text, #cbd5e1) !important;
+}
+
+html[data-theme='light'] app-root .answer-section h2 {
+  color: #818cf8 !important;
+}
+
 html[data-theme='light'] app-root :is(
   .btn-primary, .nav-btn.primary, .search-btn, .add-btn,
   .quick-read-btn, .add-product-btn, .modal-btn.primary

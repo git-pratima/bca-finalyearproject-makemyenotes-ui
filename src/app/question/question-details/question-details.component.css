@@ -147,6 +147,7 @@
 .answer-section {
   margin: 0 40px 4px;
   background: rgba(99, 102, 241, 0.05);
+  color: var(--answer-text, #cbd5e1);
   border: 1px solid rgba(99, 102, 241, 0.14);
   border-radius: 12px;
   padding: 24px 28px;

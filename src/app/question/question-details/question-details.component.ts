@@ -37,20 +37,19 @@ export class QuestionDetailsComponent implements OnInit {
 
   themeOpen = false;
   activeTab: 'bg' | 'text' = 'bg';
-  currentBg = '#0d0f1a';
-  currentText = '#cbd5e1';
+  readonly DEFAULT_BG = '#ffffff';
+  readonly DEFAULT_TEXT = '#000000';
+  currentBg = this.DEFAULT_BG;
+  currentText = this.DEFAULT_TEXT;
   isSaving = false;
   saveSuccess = false;
   imageErrored: Set<number> = new Set();
 
-  readonly DEFAULT_BG = '#0d0f1a';
-  readonly DEFAULT_TEXT = '#cbd5e1';
-
   bgPresets = [
+    { color: '#ffffff', label: 'White' },
     { color: '#0d0f1a', label: 'Dark navy' },
     { color: '#0a1628', label: 'Midnight blue' },
     { color: '#1a1a2e', label: 'Deep indigo' },
-    { color: '#ffffff', label: 'White' },
     { color: '#d4a853', label: 'Golden' },
     { color: '#054348', label: 'Forest green' },
     { color: '#7b2d8b', label: 'Deep purple' },
@@ -60,9 +59,9 @@ export class QuestionDetailsComponent implements OnInit {
   ];
 
   textPresets = [
+    { color: '#000000', label: 'Black' },
     { color: '#ffffff', label: 'White' },
     { color: '#cbd5e1', label: 'Muted silver' },
-    { color: '#000000', label: 'Black' },
     { color: '#1e293b', label: 'Dark slate' },
     { color: '#6366f1', label: 'Indigo' },
     { color: '#14b8a6', label: 'Teal' },
@@ -90,8 +89,15 @@ export class QuestionDetailsComponent implements OnInit {
     this.questionService.getQuestionDetailsById(qId).subscribe({
       next: (res) => {
         this.question = res.question;
-        if (this.question?.bgColor)   this.currentBg   = this.question.bgColor;
-        if (this.question?.textColor) this.currentText = this.question.textColor;
+        const hasLegacyDefaultTheme = this.question?.bgColor === '#0d0f1a'
+          && this.question?.textColor === '#cbd5e1';
+
+        this.currentBg = hasLegacyDefaultTheme
+          ? this.DEFAULT_BG
+          : this.question?.bgColor || this.DEFAULT_BG;
+        this.currentText = hasLegacyDefaultTheme
+          ? this.DEFAULT_TEXT
+          : this.question?.textColor || this.DEFAULT_TEXT;
       },
       error: (err) => console.error(err)
     });
@@ -112,8 +118,8 @@ export class QuestionDetailsComponent implements OnInit {
   }
 
   resetTheme(): void {
-    this.currentBg   = this.question.bgColor;
-    this.currentText = this.question.textColor;
+    this.currentBg = this.DEFAULT_BG;
+    this.currentText = this.DEFAULT_TEXT;
   }
 
   getImageSrc(base64String: string): string {
